@@ -130,14 +130,16 @@ def main() -> None:
             "count": count,
         }
 
-    core_prefixes = feeds.get("core", [])
-    if core_prefixes:
-        routeros_filename = "routeros-github-core.rsc"
+    for routeros_category in ("core", "all"):
+        prefixes = feeds.get(routeros_category, [])
+        if not prefixes:
+            continue
+        routeros_filename = f"routeros-github-{routeros_category}.rsc"
         routeros_path = output_dir / routeros_filename
-        routeros_count = write_routeros_rsc(routeros_path, core_prefixes)
+        routeros_count = write_routeros_rsc(routeros_path, prefixes)
         assets[routeros_filename] = {
             "provider": "github",
-            "category": "core",
+            "category": routeros_category,
             "family": "routeros",
             "count": routeros_count,
         }
