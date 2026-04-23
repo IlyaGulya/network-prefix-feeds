@@ -64,7 +64,7 @@ def write_routeros_rsc(path: Path, prefixes: Iterable[str]) -> int:
     ]
     commands.extend(
         (
-            f':if ([:len [/ip firewall address-list find where list="{ROUTEROS_GITHUB_LIST_NAME}" and address={prefix}]] = 0) '
+            f':if ([:len [/ip firewall address-list find where list="{ROUTEROS_GITHUB_LIST_NAME}" and address="{prefix}"]] = 0) '
             f'do={{ /ip firewall address-list add list="{ROUTEROS_GITHUB_LIST_NAME}" address={prefix} comment="{ROUTEROS_GITHUB_COMMENT}" }}'
         )
         for prefix in items
