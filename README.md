@@ -14,9 +14,10 @@ Source:
 
 - `https://api.github.com/meta`
 
-## Generated assets
+## Generated feeds
 
-The workflow publishes assets into the `latest` GitHub release.
+The workflow regenerates tracked files under [`feeds/`](/Users/ilyagulya/Projects/My/network-prefix-feeds/feeds) and commits them back to `main`.
+It also refreshes the `latest` release for convenience, but consumers should prefer the raw repository URLs because they do not depend on GitHub release redirects.
 
 Current GitHub assets:
 
@@ -54,10 +55,10 @@ That gives us:
 
 ## Consumer example
 
-For MikroTik/OpenTofu consumers, use the public release asset URL:
+For MikroTik/OpenTofu consumers, use the raw repository URL:
 
 ```text
-https://github.com/<owner>/network-prefix-feeds/releases/latest/download/github-all-ipv4.txt
+https://raw.githubusercontent.com/<owner>/network-prefix-feeds/refs/heads/main/feeds/github-all-ipv4.txt
 ```
 
 If you want to route only specific GitHub surfaces later, use a more specific
@@ -71,7 +72,7 @@ cd /Users/ilyagulya/Projects/My/network-prefix-feeds
 python3 scripts/build_feeds.py
 ```
 
-Generated files appear under `dist/`.
+Generated files appear under `feeds/`.
 
 ## Release workflow
 
@@ -79,8 +80,8 @@ The workflow:
 
 1. fetches GitHub Meta API
 2. generates normalized IPv4 feeds
-3. creates or updates the `latest` release
-4. uploads the current assets with overwrite enabled
+3. commits refreshed files into `feeds/` on `main`
+4. updates the `latest` release with the same files
 
 ## Future expansion
 

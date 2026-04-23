@@ -29,7 +29,16 @@ jobs:
           python-version: "3.12"
 
       - name: Build feeds
-        run: python3 scripts/build_feeds.py
+        run: python3 scripts/build_feeds.py --output feeds
+
+      - name: Commit refreshed feeds
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add feeds
+          git diff --cached --quiet && exit 0
+          git commit -m "Update generated feeds"
+          git push
 
       - name: Ensure latest release exists
         env:
@@ -41,4 +50,4 @@ jobs:
       - name: Upload assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload latest dist/* --clobber
+        run: gh release upload latest feeds/* --clobber

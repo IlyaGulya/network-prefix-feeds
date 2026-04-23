@@ -1,0 +1,86 @@
+{
+  "assets": {
+    "github-actions-ipv4.txt": {
+      "category": "actions",
+      "count": 4991,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-actions-macos-ipv4.txt": {
+      "category": "actions_macos",
+      "count": 8,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-all-ipv4.txt": {
+      "category": "all",
+      "count": 5283,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-api-ipv4.txt": {
+      "category": "api",
+      "count": 20,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-codespaces-ipv4.txt": {
+      "category": "codespaces",
+      "count": 191,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-copilot-ipv4.txt": {
+      "category": "copilot",
+      "count": 15,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-git-ipv4.txt": {
+      "category": "git",
+      "count": 36,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-github-enterprise-importer-ipv4.txt": {
+      "category": "github_enterprise_importer",
+      "count": 6,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-hooks-ipv4.txt": {
+      "category": "hooks",
+      "count": 4,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-importer-ipv4.txt": {
+      "category": "importer",
+      "count": 5,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-packages-ipv4.txt": {
+      "category": "packages",
+      "count": 25,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-pages-ipv4.txt": {
+      "category": "pages",
+      "count": 6,
+      "family": "ipv4",
+      "provider": "github"
+    },
+    "github-web-ipv4.txt": {
+      "category": "web",
+      "count": 20,
+      "family": "ipv4",
+      "provider": "github"
+    }
+  },
+  "generated_at_utc": "2026-04-23T11:07:47+00:00",
+  "sources": {
+    "github_meta_api": "https://api.github.com/meta"
+  }
+}
