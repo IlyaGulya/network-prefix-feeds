@@ -36,6 +36,12 @@
       "family": "ipv4",
       "provider": "github"
     },
+    "github-core-ipv4.txt": {
+      "category": "core",
+      "count": 83,
+      "family": "ipv4",
+      "provider": "github"
+    },
     "github-git-ipv4.txt": {
       "category": "git",
       "count": 36,
@@ -79,7 +85,7 @@
       "provider": "github"
     }
   },
-  "generated_at_utc": "2026-04-23T11:08:16+00:00",
+  "generated_at_utc": "2026-04-23T11:17:15+00:00",
   "sources": {
     "github_meta_api": "https://api.github.com/meta"
   }

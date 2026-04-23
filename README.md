@@ -22,6 +22,7 @@ It also refreshes the `latest` release for convenience, but consumers should pre
 Current GitHub assets:
 
 - `github-all-ipv4.txt`
+- `github-core-ipv4.txt`
 - `github-api-ipv4.txt`
 - `github-actions-ipv4.txt`
 - `github-actions-macos-ipv4.txt`
@@ -55,15 +56,30 @@ That gives us:
 
 ## Consumer example
 
-For MikroTik/OpenTofu consumers, use the raw repository URL:
+For MikroTik/OpenTofu consumers, prefer the jsDelivr URL backed by this repository content:
 
 ```text
-https://raw.githubusercontent.com/<owner>/network-prefix-feeds/refs/heads/main/feeds/github-all-ipv4.txt
+https://cdn.jsdelivr.net/gh/<owner>/network-prefix-feeds@main/feeds/github-all-ipv4.txt
 ```
 
+Why not the obvious GitHub URLs:
+
+- `releases/latest/download/...` returns redirects, and RouterOS `fetch` does not follow them reliably
+- `raw.githubusercontent.com/...` can be brittle from some networks and devices
+- jsDelivr serves the file directly from the repo content and worked reliably for MikroTik in this setup
+
 If you want to route only specific GitHub surfaces later, use a more specific
-asset such as `github-git-ipv4.txt`, `github-packages-ipv4.txt` or
-`github-actions-ipv4.txt`.
+asset such as `github-core-ipv4.txt`, `github-git-ipv4.txt`,
+`github-packages-ipv4.txt` or `github-actions-ipv4.txt`.
+
+Recommended default for routers:
+
+- `github-core-ipv4.txt`
+
+Why:
+
+- it covers the normal user-facing GitHub surfaces: `web`, `api`, `git`, `pages`, `packages`, `hooks`
+- it avoids the very large `github-all-ipv4.txt`, which pulls in categories like `actions` and is less friendly to constrained devices such as RouterOS
 
 ## Local build
 

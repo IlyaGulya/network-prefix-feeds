@@ -15,6 +15,14 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = ROOT / "feeds"
 GITHUB_META_URL = "https://api.github.com/meta"
+GITHUB_CORE_CATEGORIES = (
+    "web",
+    "api",
+    "git",
+    "pages",
+    "packages",
+    "hooks",
+)
 
 
 def fetch_json(url: str) -> dict[str, Any]:
@@ -55,6 +63,13 @@ def github_feeds(meta: dict[str, Any]) -> dict[str, list[str]]:
         prefixes = normalize_ipv4_prefixes(value)
         if prefixes:
             feeds[key] = prefixes
+    core_prefixes = normalize_ipv4_prefixes(
+        prefix
+        for category in GITHUB_CORE_CATEGORIES
+        for prefix in feeds.get(category, [])
+    )
+    if core_prefixes:
+        feeds["core"] = core_prefixes
     all_prefixes = normalize_ipv4_prefixes(prefix for prefixes in feeds.values() for prefix in prefixes)
     feeds["all"] = all_prefixes
     return feeds
