@@ -23,6 +23,7 @@ Current GitHub assets:
 
 - `github-all-ipv4.txt`
 - `github-core-ipv4.txt`
+- `routeros-github-core.rsc`
 - `github-api-ipv4.txt`
 - `github-actions-ipv4.txt`
 - `github-actions-macos-ipv4.txt`
@@ -75,11 +76,13 @@ asset such as `github-core-ipv4.txt`, `github-git-ipv4.txt`,
 Recommended default for routers:
 
 - `github-core-ipv4.txt`
+- for MikroTik specifically: `routeros-github-core.rsc`
 
 Why:
 
 - it covers the normal user-facing GitHub surfaces: `web`, `api`, `git`, `pages`, `packages`, `hooks`
 - it avoids the very large `github-all-ipv4.txt`, which pulls in categories like `actions` and is less friendly to constrained devices such as RouterOS
+- the `.rsc` variant lets RouterOS import ready-made address-list commands instead of parsing text line-by-line on-device
 
 ## Local build
 

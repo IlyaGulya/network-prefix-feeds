@@ -83,9 +83,15 @@
       "count": 20,
       "family": "ipv4",
       "provider": "github"
+    },
+    "routeros-github-core.rsc": {
+      "category": "core",
+      "count": 83,
+      "family": "routeros",
+      "provider": "github"
     }
   },
-  "generated_at_utc": "2026-04-23T11:17:28+00:00",
+  "generated_at_utc": "2026-04-23T11:21:57+00:00",
   "sources": {
     "github_meta_api": "https://api.github.com/meta"
   }

@@ -23,6 +23,8 @@ GITHUB_CORE_CATEGORIES = (
     "packages",
     "hooks",
 )
+ROUTEROS_GITHUB_LIST_NAME = "github-vpn-dst"
+ROUTEROS_GITHUB_COMMENT = "GitOps side-router: GitHub prefix feed"
 
 
 def fetch_json(url: str) -> dict[str, Any]:
@@ -52,6 +54,19 @@ def normalize_ipv4_prefixes(values: Iterable[str]) -> list[str]:
 def write_lines(path: Path, lines: Iterable[str]) -> int:
     items = list(lines)
     path.write_text("".join(f"{line}\n" for line in items), encoding="utf-8")
+    return len(items)
+
+
+def write_routeros_rsc(path: Path, prefixes: Iterable[str]) -> int:
+    items = list(prefixes)
+    commands = [
+        f'/ip firewall address-list remove [find where list="{ROUTEROS_GITHUB_LIST_NAME}" and comment="{ROUTEROS_GITHUB_COMMENT}"]'
+    ]
+    commands.extend(
+        f'/ip firewall address-list add list="{ROUTEROS_GITHUB_LIST_NAME}" address={prefix} comment="{ROUTEROS_GITHUB_COMMENT}"'
+        for prefix in items
+    )
+    path.write_text("\n".join(commands) + "\n", encoding="utf-8")
     return len(items)
 
 
@@ -104,6 +119,18 @@ def main() -> None:
             "category": name,
             "family": "ipv4",
             "count": count,
+        }
+
+    core_prefixes = feeds.get("core", [])
+    if core_prefixes:
+        routeros_filename = "routeros-github-core.rsc"
+        routeros_path = output_dir / routeros_filename
+        routeros_count = write_routeros_rsc(routeros_path, core_prefixes)
+        assets[routeros_filename] = {
+            "provider": "github",
+            "category": "core",
+            "family": "routeros",
+            "count": routeros_count,
         }
 
     manifest = {
