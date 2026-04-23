@@ -61,7 +61,7 @@ That gives us:
 Preferred delivery target for routers is the Netlify site:
 
 ```text
-https://<site>.netlify.app/feeds/routeros-github-core.rsc
+https://network-prefix-feeds.netlify.app/feeds/routeros-github-core.rsc
 ```
 
 Why:

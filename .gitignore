@@ -1,3 +1,6 @@
 dist/
 __pycache__/
 public/
+
+# Local Netlify folder
+.netlify
