@@ -23,10 +23,6 @@ GITHUB_CORE_CATEGORIES = (
     "packages",
     "hooks",
 )
-ROUTEROS_GITHUB_LIST_NAME = "github-vpn-dst"
-ROUTEROS_GITHUB_COMMENT = "GitOps side-router: GitHub prefix feed"
-
-
 def fetch_json(url: str) -> dict[str, Any]:
     req_headers = {
         "Accept": "application/vnd.github+json",
@@ -57,28 +53,6 @@ def write_lines(path: Path, lines: Iterable[str]) -> int:
     return len(items)
 
 
-def format_routeros_address(prefix: str) -> str:
-    network = ipaddress.ip_network(prefix, strict=False)
-    if isinstance(network, ipaddress.IPv4Network) and network.prefixlen == network.max_prefixlen:
-        return str(network.network_address)
-    return str(network)
-
-
-def write_routeros_rsc(path: Path, prefixes: Iterable[str]) -> int:
-    items = list(prefixes)
-    commands = [
-        f'/ip firewall address-list remove [find where list="{ROUTEROS_GITHUB_LIST_NAME}" and comment="{ROUTEROS_GITHUB_COMMENT}"]'
-    ]
-    for prefix in items:
-        address = format_routeros_address(prefix)
-        commands.append(
-            f':if ([:len [/ip firewall address-list find where list="{ROUTEROS_GITHUB_LIST_NAME}" and address="{address}"]] = 0) '
-            f'do={{ /ip firewall address-list add list="{ROUTEROS_GITHUB_LIST_NAME}" address={address} comment="{ROUTEROS_GITHUB_COMMENT}" }}'
-        )
-    path.write_text("\n".join(commands) + "\n", encoding="utf-8")
-    return len(items)
-
-
 def github_feeds(meta: dict[str, Any]) -> dict[str, list[str]]:
     feeds: dict[str, list[str]] = {}
     for key, value in meta.items():
@@ -97,6 +71,13 @@ def github_feeds(meta: dict[str, Any]) -> dict[str, list[str]]:
     all_prefixes = normalize_ipv4_prefixes(prefix for prefixes in feeds.values() for prefix in prefixes)
     feeds["all"] = all_prefixes
     return feeds
+
+
+def remove_stale_generated_files(output_dir: Path, valid_names: set[str]) -> None:
+    for pattern in ("github-*.txt", "github-manifest.json", "routeros-*.rsc"):
+        for path in output_dir.glob(pattern):
+            if path.name not in valid_names:
+                path.unlink(missing_ok=True)
 
 
 def parse_args() -> argparse.Namespace:
@@ -130,20 +111,6 @@ def main() -> None:
             "count": count,
         }
 
-    for routeros_category in ("core", "all"):
-        prefixes = feeds.get(routeros_category, [])
-        if not prefixes:
-            continue
-        routeros_filename = f"routeros-github-{routeros_category}.rsc"
-        routeros_path = output_dir / routeros_filename
-        routeros_count = write_routeros_rsc(routeros_path, prefixes)
-        assets[routeros_filename] = {
-            "provider": "github",
-            "category": routeros_category,
-            "family": "routeros",
-            "count": routeros_count,
-        }
-
     manifest = {
         "generated_at_utc": generated_at,
         "sources": {
@@ -151,10 +118,14 @@ def main() -> None:
         },
         "assets": assets,
     }
-    (output_dir / "github-manifest.json").write_text(
+    manifest_name = "github-manifest.json"
+    (output_dir / manifest_name).write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+    valid_names = set(assets)
+    valid_names.add(manifest_name)
+    remove_stale_generated_files(output_dir, valid_names)
 
     summary = ", ".join(f"{name}={meta['count']}" for name, meta in sorted(assets.items()))
     print(f"Generated feeds in {output_dir}: {summary}")
