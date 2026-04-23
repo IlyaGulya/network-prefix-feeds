@@ -17,12 +17,13 @@ Source:
 ## Generated feeds
 
 The workflow regenerates tracked files under [`feeds/`](/Users/ilyagulya/Projects/My/network-prefix-feeds/feeds) and commits them back to `main`.
-It also refreshes the `latest` release for convenience, but consumers should prefer the raw repository URLs because they do not depend on GitHub release redirects.
+Netlify builds the same feeds into a static `public/` site so routers can fetch them without depending on GitHub-hosted asset delivery.
 
 Current GitHub assets:
 
 - `github-all-ipv4.txt`
 - `github-core-ipv4.txt`
+- `routeros-github-all.rsc`
 - `routeros-github-core.rsc`
 - `github-api-ipv4.txt`
 - `github-actions-ipv4.txt`
@@ -57,17 +58,17 @@ That gives us:
 
 ## Consumer example
 
-For MikroTik/OpenTofu consumers, prefer the jsDelivr URL backed by this repository content:
+Preferred delivery target for routers is the Netlify site:
 
 ```text
-https://cdn.jsdelivr.net/gh/<owner>/network-prefix-feeds@main/feeds/github-all-ipv4.txt
+https://<site>.netlify.app/feeds/routeros-github-core.rsc
 ```
 
-Why not the obvious GitHub URLs:
+Why:
 
-- `releases/latest/download/...` returns redirects, and RouterOS `fetch` does not follow them reliably
-- `raw.githubusercontent.com/...` can be brittle from some networks and devices
-- jsDelivr serves the file directly from the repo content and worked reliably for MikroTik in this setup
+- it avoids GitHub release redirects
+- it avoids brittle `raw.githubusercontent.com` fetches from constrained devices
+- it gives a stable static site dedicated to feed delivery
 
 If you want to route only specific GitHub surfaces later, use a more specific
 asset such as `github-core-ipv4.txt`, `github-git-ipv4.txt`,
@@ -89,9 +90,10 @@ Why:
 ```bash
 cd /Users/ilyagulya/Projects/My/network-prefix-feeds
 python3 scripts/build_feeds.py
+python3 scripts/build_site.py
 ```
 
-Generated files appear under `feeds/`.
+Generated files appear under `feeds/` and `public/`.
 
 ## Release workflow
 
@@ -101,6 +103,12 @@ The workflow:
 2. generates normalized IPv4 feeds
 3. commits refreshed files into `feeds/` on `main`
 4. updates the `latest` release with the same files
+
+## Netlify
+
+- `netlify.toml` builds `public/` with `python3 scripts/build_site.py`
+- `public/feeds/` mirrors the generated feed assets for static hosting
+- `public/index.html` provides a simple asset index page
 
 ## Future expansion
 
