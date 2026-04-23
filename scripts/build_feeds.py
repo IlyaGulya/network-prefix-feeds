@@ -57,18 +57,24 @@ def write_lines(path: Path, lines: Iterable[str]) -> int:
     return len(items)
 
 
+def format_routeros_address(prefix: str) -> str:
+    network = ipaddress.ip_network(prefix, strict=False)
+    if isinstance(network, ipaddress.IPv4Network) and network.prefixlen == network.max_prefixlen:
+        return str(network.network_address)
+    return str(network)
+
+
 def write_routeros_rsc(path: Path, prefixes: Iterable[str]) -> int:
     items = list(prefixes)
     commands = [
         f'/ip firewall address-list remove [find where list="{ROUTEROS_GITHUB_LIST_NAME}" and comment="{ROUTEROS_GITHUB_COMMENT}"]'
     ]
-    commands.extend(
-        (
-            f':if ([:len [/ip firewall address-list find where list="{ROUTEROS_GITHUB_LIST_NAME}" and address="{prefix}"]] = 0) '
-            f'do={{ /ip firewall address-list add list="{ROUTEROS_GITHUB_LIST_NAME}" address={prefix} comment="{ROUTEROS_GITHUB_COMMENT}" }}'
+    for prefix in items:
+        address = format_routeros_address(prefix)
+        commands.append(
+            f':if ([:len [/ip firewall address-list find where list="{ROUTEROS_GITHUB_LIST_NAME}" and address="{address}"]] = 0) '
+            f'do={{ /ip firewall address-list add list="{ROUTEROS_GITHUB_LIST_NAME}" address={address} comment="{ROUTEROS_GITHUB_COMMENT}" }}'
         )
-        for prefix in items
-    )
     path.write_text("\n".join(commands) + "\n", encoding="utf-8")
     return len(items)
 
