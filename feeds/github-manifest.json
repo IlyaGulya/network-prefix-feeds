@@ -2,7 +2,7 @@
   "assets": {
     "github-actions-ipv4.txt": {
       "category": "actions",
-      "count": 5658,
+      "count": 5645,
       "family": "ipv4",
       "provider": "github"
     },
@@ -14,7 +14,7 @@
     },
     "github-all-ipv4.txt": {
       "category": "all",
-      "count": 5966,
+      "count": 5953,
       "family": "ipv4",
       "provider": "github"
     },
@@ -85,7 +85,7 @@
       "provider": "github"
     }
   },
-  "generated_at_utc": "2026-08-12T04:16:42+00:00",
+  "generated_at_utc": "2026-08-13T04:19:49+00:00",
   "sources": {
     "github_meta_api": "https://api.github.com/meta"
   }
