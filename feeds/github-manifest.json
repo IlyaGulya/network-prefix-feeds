@@ -14,13 +14,13 @@
     },
     "github-all-ipv4.txt": {
       "category": "all",
-      "count": 5835,
+      "count": 5839,
       "family": "ipv4",
       "provider": "github"
     },
     "github-api-ipv4.txt": {
       "category": "api",
-      "count": 24,
+      "count": 25,
       "family": "ipv4",
       "provider": "github"
     },
@@ -38,13 +38,13 @@
     },
     "github-core-ipv4.txt": {
       "category": "core",
-      "count": 115,
+      "count": 119,
       "family": "ipv4",
       "provider": "github"
     },
     "github-git-ipv4.txt": {
       "category": "git",
-      "count": 58,
+      "count": 60,
       "family": "ipv4",
       "provider": "github"
     },
@@ -68,7 +68,7 @@
     },
     "github-packages-ipv4.txt": {
       "category": "packages",
-      "count": 29,
+      "count": 30,
       "family": "ipv4",
       "provider": "github"
     },
@@ -80,12 +80,12 @@
     },
     "github-web-ipv4.txt": {
       "category": "web",
-      "count": 38,
+      "count": 39,
       "family": "ipv4",
       "provider": "github"
     }
   },
-  "generated_at_utc": "2026-10-20T07:30:48+00:00",
+  "generated_at_utc": "2026-10-21T07:36:37+00:00",
   "sources": {
     "github_meta_api": "https://api.github.com/meta"
   }
