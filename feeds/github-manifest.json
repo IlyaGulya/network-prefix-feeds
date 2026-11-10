@@ -14,7 +14,7 @@
     },
     "github-all-ipv4.txt": {
       "category": "all",
-      "count": 5991,
+      "count": 5996,
       "family": "ipv4",
       "provider": "github"
     },
@@ -32,19 +32,19 @@
     },
     "github-copilot-ipv4.txt": {
       "category": "copilot",
-      "count": 55,
+      "count": 60,
       "family": "ipv4",
       "provider": "github"
     },
     "github-core-ipv4.txt": {
       "category": "core",
-      "count": 144,
+      "count": 149,
       "family": "ipv4",
       "provider": "github"
     },
     "github-git-ipv4.txt": {
       "category": "git",
-      "count": 84,
+      "count": 89,
       "family": "ipv4",
       "provider": "github"
     },
@@ -80,18 +80,18 @@
     },
     "github-shared-ingress-ipv4.txt": {
       "category": "shared_ingress",
-      "count": 50,
+      "count": 55,
       "family": "ipv4",
       "provider": "github"
     },
     "github-web-ipv4.txt": {
       "category": "web",
-      "count": 63,
+      "count": 68,
       "family": "ipv4",
       "provider": "github"
     }
   },
-  "generated_at_utc": "2026-11-09T09:45:50+00:00",
+  "generated_at_utc": "2026-11-10T09:46:09+00:00",
   "sources": {
     "github_meta_api": "https://api.github.com/meta"
   }
